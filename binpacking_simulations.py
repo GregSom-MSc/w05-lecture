@@ -19,20 +19,28 @@ max_size = 30
 
 # Generate random sets of items
 item_sets = np.random.randint(min_size, max_size + 1, (N_sets, N_items))
-print(item_sets)
+# print(item_sets)
 
 # Start an empty list
-N_open_bins = []
+# N_open_bins = []
 
-# Test the no-sorting method on all the examples
-for set_number in range(N_sets):
-    bins = bp.first_fit(list(item_sets[set_number, :]), bin_capacity)
-    N_open_bins.append(len(bins))
+# Methods we want to try
+methods = [None, 'increasing', 'decreasing']
 
-print(N_open_bins)
+# Test all 3 methods on all the examples
+for method in methods:
+    N_open_bins = []
+    for set_number in range(N_sets):
+        bins = bp.first_fit(list(item_sets[set_number, :]), bin_capacity, sorting=method)
+        N_open_bins.append(len(bins))
 
-# Visualise the results
-plt.hist(N_open_bins)
+    # print(N_open_bins)
+
+    # Visualise the results
+    plt.hist(N_open_bins, alpha=0.5, label=f'Method: {method}')
+    # N_open_bins = []
+
+plt.legend()
 plt.show()
 
 
